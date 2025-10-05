@@ -1,22 +1,25 @@
 package com.universite.student.entities;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Student {
 
-    private String id;// unique id (not null)
-    @NotBlank(message = " first name is requires")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;// unique id (not null)
+    @Column(name = "first_Name", nullable = false, length = 100)
     private String firstName;
-    @NotNull(message = " last name is requires")
-    @Email(message = "HADA MAXI EMAIL WAX KAD7KO 3LA NAS ")
+    @Column(name = "last_Name", nullable = false, length = 100)
     private String lastName;
+    @Column(name = "age", nullable = false)
     private int age;
 }
