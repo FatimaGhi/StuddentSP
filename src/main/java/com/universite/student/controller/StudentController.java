@@ -2,8 +2,10 @@ package com.universite.student.controller;
 
 import com.universite.student.Dtos.StudentCreat;
 import com.universite.student.Dtos.StudentUpDate;
+import com.universite.student.Dtos.StudentVue;
 import com.universite.student.Interfaces.StudenService;
 import com.universite.student.entities.Student;
+import com.universite.student.shared.GlobalResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,29 +15,39 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/Students")
+@RequestMapping("Students")
 public class StudentController {
-
-
     public StudenService studentservice;
-
 
     StudentController(StudenService studentservice) {
         this.studentservice = studentservice;
     }
 
     @GetMapping
-    public List<Student> GetAllStudents() {
+    public ResponseEntity<GlobalResponse<List<StudentVue>>> GetAllStudents() {
+        List<Student> students = studentservice.FindAllStudent();
+        
+        List<StudentVue> studentVues = students.stream()
+                .map(student -> new StudentVue(
+                        student.getId(),
+                        student.getFirstName(),
+                        student.getLastName(),
+                        student.getAge(),
+                        student.getDepartment() != null ? student.getDepartment().getName() : null
+                ))
+                .toList();
 
-
-        return studentservice.FindAllStudent();
+        return new ResponseEntity<>(new GlobalResponse<List<StudentVue>>(studentVues), HttpStatus.OK);
     }
 
+
     @PostMapping
-    public ResponseEntity<Student> setstudent(@RequestBody @Valid StudentCreat studentcreat) {
+    public ResponseEntity<GlobalResponse<StudentVue>> setstudent(@RequestBody @Valid StudentCreat studentcreat) {
         Student student;
         student = studentservice.CreatStudent(studentcreat);
-        return new ResponseEntity<Student>(student, HttpStatus.CREATED);
+        StudentVue studentVue = new StudentVue(student.getId(), student.getFirstName(), student.getLastName(), student.getAge(), student.getDepartment() != null ? student.getDepartment().getName() : null);
+        System.out.println(" ==================== > " + studentVue);
+        return new ResponseEntity<GlobalResponse<StudentVue>>(new GlobalResponse<StudentVue>(studentVue), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{studentid}")
@@ -45,18 +57,23 @@ public class StudentController {
     }
 
     @PutMapping("/{studentid}")
-    public ResponseEntity<Student> updateStudent(@PathVariable long studentid, @RequestBody @Valid StudentUpDate studentUpdate) {
+    public ResponseEntity<GlobalResponse<StudentVue>> updateStudent(@PathVariable long studentid, @RequestBody @Valid StudentUpDate studentUpdate) {
 
         Student student = studentservice.UpDateStudent(studentid, studentUpdate);
+        StudentVue studentVue = new StudentVue(student.getId(), student.getFirstName(), student.getLastName(), student.getAge(), student.getDepartment() != null ? student.getDepartment().getName() : null);
+        System.out.println(" ==================== > " + studentVue);
 
-        return new ResponseEntity<Student>(student, HttpStatus.OK);
+        return new ResponseEntity<GlobalResponse<StudentVue>>(new GlobalResponse<StudentVue>(studentVue), HttpStatus.OK);
 
     }
 
     @GetMapping("/{studentid}")
-    public ResponseEntity<Student> getOneStudent(@PathVariable long studentid) {
+    public ResponseEntity<GlobalResponse<StudentVue>> getOneStudent(@PathVariable long studentid) {
         Student student = studentservice.findOneStudent(studentid);
-        return new ResponseEntity<Student>(student, HttpStatus.OK);
+        StudentVue studentVue = new StudentVue(student.getId(), student.getFirstName(), student.getLastName(), student.getAge(), student.getDepartment() != null ? student.getDepartment().getName() : null);
+        System.out.println(" ==================== > " + studentVue);
+        return new ResponseEntity<GlobalResponse<StudentVue>>(new GlobalResponse<StudentVue>(studentVue), HttpStatus.OK);
     }
+
 
 }
