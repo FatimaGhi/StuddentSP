@@ -2,6 +2,7 @@ package com.universite.student.Interfaces;
 
 import com.universite.student.Dtos.DeprtCreat;
 import com.universite.student.entities.Department;
+import com.universite.student.entities.Student;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface DepartService {
     public Department GetOneDeaprt(Long idDepart);
 
     public void DeleteDepart(long id);
+
+    public List<Student> findAllStudentByName(String NameDepart);
 }

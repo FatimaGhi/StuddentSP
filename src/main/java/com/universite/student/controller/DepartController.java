@@ -3,6 +3,7 @@ package com.universite.student.controller;
 import com.universite.student.Dtos.DeprtCreat;
 import com.universite.student.Interfaces.DepartService;
 import com.universite.student.entities.Department;
+import com.universite.student.entities.Student;
 import com.universite.student.shared.GlobalResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,12 @@ public class DepartController {
     public ResponseEntity<String> deleteStudentById(@PathVariable long Departid) {
         departService.DeleteDepart(Departid);
         return new ResponseEntity("*** department   is delete ", HttpStatus.OK);
+    }
+
+    @GetMapping("/{namedepart}/students")
+    public ResponseEntity<GlobalResponse<List<Student>>> GetAllStudentByName(@PathVariable String namedepart) {
+        List<Student> students = departService.findAllStudentByName(namedepart);
+        return new ResponseEntity<GlobalResponse<List<Student>>>(new GlobalResponse<List<Student>>(students), HttpStatus.OK);
     }
 
 }

@@ -3,6 +3,7 @@ package com.universite.student.service;
 import com.universite.student.Dtos.DeprtCreat;
 import com.universite.student.Interfaces.DepartService;
 import com.universite.student.entities.Department;
+import com.universite.student.entities.Student;
 import com.universite.student.repositories.DepartRepo;
 import com.universite.student.shared.CustomResponseException;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,15 @@ public class DepartServiceImp implements DepartService {
             throw CustomResponseException.ResourceNotFound(" ***  Department  with id " + id + "not found");
 
         departRepo.deleteById(id);
+    }
+
+    public List<Student> findAllStudentByName(String NameDepart) {
+
+        Department department = departRepo.findByName(NameDepart)
+                .orElseThrow(() -> new RuntimeException("Department not found: " + NameDepart));
+
+        return department.getStudents();
+
     }
 }
 
