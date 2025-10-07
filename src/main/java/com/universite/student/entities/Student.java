@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -27,4 +30,8 @@ public class Student {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
+
+    @ManyToMany
+    @JoinTable(name = "Student_subject", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "id_S"))
+    private Set<Subject> subjects = new HashSet<>();
 }

@@ -18,4 +18,5 @@ public class Subject {
     private long id_S;
     @Column(name = "Name Subject  ", nullable = false, length = 100, unique = true)
     private String NameSubject;
+    
 }
