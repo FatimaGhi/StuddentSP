@@ -26,7 +26,7 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<GlobalResponse<List<StudentVue>>> GetAllStudents() {
         List<Student> students = studentservice.FindAllStudent();
-        
+
         List<StudentVue> studentVues = students.stream()
                 .map(student -> new StudentVue(
                         student.getId(),
@@ -46,7 +46,6 @@ public class StudentController {
         Student student;
         student = studentservice.CreatStudent(studentcreat);
         StudentVue studentVue = new StudentVue(student.getId(), student.getFirstName(), student.getLastName(), student.getAge(), student.getDepartment() != null ? student.getDepartment().getName() : null);
-        System.out.println(" ==================== > " + studentVue);
         return new ResponseEntity<GlobalResponse<StudentVue>>(new GlobalResponse<StudentVue>(studentVue), HttpStatus.CREATED);
     }
 
@@ -61,8 +60,6 @@ public class StudentController {
 
         Student student = studentservice.UpDateStudent(studentid, studentUpdate);
         StudentVue studentVue = new StudentVue(student.getId(), student.getFirstName(), student.getLastName(), student.getAge(), student.getDepartment() != null ? student.getDepartment().getName() : null);
-        System.out.println(" ==================== > " + studentVue);
-
         return new ResponseEntity<GlobalResponse<StudentVue>>(new GlobalResponse<StudentVue>(studentVue), HttpStatus.OK);
 
     }

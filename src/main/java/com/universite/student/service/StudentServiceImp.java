@@ -8,11 +8,13 @@ import com.universite.student.entities.Student;
 import com.universite.student.repositories.DepartRepo;
 import com.universite.student.repositories.StudentRepo;
 import com.universite.student.shared.CustomResponseException;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Log4j2
 @Service
 public class StudentServiceImp implements StudenService {
     DepartRepo departRepo;
@@ -29,12 +31,14 @@ public class StudentServiceImp implements StudenService {
         student.setLastName(studentCreat.lastName());
         student.setAge(studentCreat.age());
         Department dept = departRepo.findByName(studentCreat.Name_department())
-                .orElseThrow(() -> new RuntimeException("Department not found"));
+                .orElseThrow(() -> CustomResponseException.ResourceNotFound(" Despartment not found in data base "));
         student.setDepartment(dept);
 
 
         studentRepo.save(student);
-        System.out.println("********************  ADD student in data base ");
+//        System.out.println("********************  ADD student in data base ");
+        log.info(" ADD student  in data base");
+
         return student;
     }
 
@@ -52,7 +56,7 @@ public class StudentServiceImp implements StudenService {
     }
 
     public Student findOneStudent(long idStudent) {
-        Student student = studentRepo.findById(idStudent).orElseThrow(() -> new RuntimeException("Resource is not found"));
+        Student student = studentRepo.findById(idStudent).orElseThrow(() -> CustomResponseException.ResourceNotFound("Resource is not found"));
         return student;
     }
 

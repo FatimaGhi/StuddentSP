@@ -33,8 +33,8 @@ public class GlobalExceptionResponse {
 
     @ExceptionHandler(CustomResponseException.class)
     public ResponseEntity<GlobalResponse<?>> HandleCustemResException(CustomResponseException ex) {
-        var data = List.of(ex.getMessage());
-        return new ResponseEntity<>(new GlobalResponse<>(data), HttpStatus.resolve(ex.getCode()));
+        var errors = List.of(new GlobalResponse.ErrorItem(ex.getMessage()));
+        return new ResponseEntity<>(new GlobalResponse<>(errors), HttpStatus.resolve(ex.getCode()));
     }
 
 
