@@ -15,6 +15,4 @@ public record StudentCreat(
         @NotNull(message = " Name_department is requires")
         @Size(max = 100, message = "Name_department cannot exceed 100 characters")
         String Name_department) {
-
-
 }

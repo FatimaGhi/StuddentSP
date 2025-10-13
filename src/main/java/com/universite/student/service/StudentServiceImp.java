@@ -33,12 +33,8 @@ public class StudentServiceImp implements StudenService {
         Department dept = departRepo.findByName(studentCreat.Name_department())
                 .orElseThrow(() -> CustomResponseException.ResourceNotFound(" Despartment not found in data base "));
         student.setDepartment(dept);
-
-
         studentRepo.save(student);
-//        System.out.println("********************  ADD student in data base ");
         log.info(" ADD student  in data base");
-
         return student;
     }
 
