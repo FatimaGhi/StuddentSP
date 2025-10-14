@@ -25,7 +25,7 @@ public class Student {
     @Column(name = "age", nullable = false)
     private int age;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
