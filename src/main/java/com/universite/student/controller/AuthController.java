@@ -1,6 +1,7 @@
 package com.universite.student.controller;
 
 
+import com.universite.student.Dtos.LoginRequest;
 import com.universite.student.Dtos.SignupRequest;
 import com.universite.student.service.AuthService;
 import com.universite.student.shared.GlobalResponse;
@@ -28,5 +29,12 @@ public class AuthController {
 //        log.info(signupRequest.studentID());
         authService.signup(signupRequest);
         return new ResponseEntity<GlobalResponse<String>>(new GlobalResponse<>("signed Up"), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<GlobalResponse<String>> signup(@RequestBody LoginRequest loginRequest) {
+//        log.info(signupRequest.studentID());
+        String tokon = authService.login(loginRequest);
+        return new ResponseEntity<GlobalResponse<String>>(new GlobalResponse<>(tokon), HttpStatus.CREATED);
     }
 }
