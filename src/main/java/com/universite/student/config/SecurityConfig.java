@@ -36,8 +36,10 @@ public class SecurityConfig {
                     auth.requestMatchers(
                             "/Students",
                             "/api/v1/departments",
+                            "/auth/**",
+                            "/v3/api-docs/**",
                             "/swagger-ui/**",
-                            "/auth/**"
+                            "/swagger-ui.html"
                     ).permitAll();
                 }).authenticationManager(authenticationManager(http));
 

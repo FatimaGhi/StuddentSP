@@ -1,0 +1,39 @@
+version: "3"
+services:
+  #  data base postgres
+  postgres:
+    image: postgres:13.22-alpine3.22
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 2001fatima
+      POSTGRES_USER: postgres
+      POSTGRES_DB: learnspringboot
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - myNetwork
+
+
+  #  Spring boot
+  student:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/learnspringboot
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 2001fatima
+    ports:
+      - "8080:8090"
+    networks:
+      - myNetwork
+
+
+volumes:
+  pgdata:
+
+networks:
+  myNetwork:
+    driver: bridge

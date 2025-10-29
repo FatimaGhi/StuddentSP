@@ -52,7 +52,7 @@ public class StudentServiceImp implements StudenService {
     }
 
     public Student findOneStudent(long idStudent) {
-        Student student = studentRepo.findById(idStudent).orElseThrow(() -> CustomResponseException.ResourceNotFound("Resource is not found"));
+        Student student = studentRepo.findById(idStudent).orElseThrow(() -> CustomResponseException.ResourceNotFound("id Resource is not found"));
         return student;
     }
 
